@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Facebook Groups Monitor",
+  "version": "1.0",
+  "description": "Monitor Facebook groups and send updates to webhooks",
+  "permissions": [
+    "storage",
+    "background",
+    "activeTab",
+    "cookies",
+    "alarms",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.facebook.com/*",
+    "https://facebook.com/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Facebook Groups Monitor"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.facebook.com/*", "https://facebook.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["injected.js"],
+      "matches": ["https://www.facebook.com/*", "https://facebook.com/*"]
+    }
+  ]
+}

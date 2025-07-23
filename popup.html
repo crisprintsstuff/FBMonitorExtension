@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 400px;
+            min-height: 500px;
+            padding: 15px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 14px;
+            background: #f8f9fa;
+        }
+        
+        .header {
+            background: #1877f2;
+            color: white;
+            padding: 15px;
+            margin: -15px -15px 20px -15px;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .add-group-form {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        textarea {
+            height: 60px;
+            resize: vertical;
+        }
+        
+        .btn {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background: #166fe5;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-test {
+            background: #28a745;
+        }
+        
+        .btn-test:hover {
+            background: #218838;
+        }
+        
+        .group-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .group-name {
+            font-weight: 600;
+            color: #1877f2;
+            margin-bottom: 5px;
+        }
+        
+        .group-url {
+            color: #666;
+            font-size: 12px;
+            word-break: break-all;
+            margin-bottom: 5px;
+        }
+        
+        .group-webhook {
+            color: #666;
+            font-size: 12px;
+            word-break: break-all;
+            margin-bottom: 10px;
+        }
+        
+        .group-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .status {
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .monitoring-status {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-active {
+            background: #28a745;
+        }
+        
+        .status-inactive {
+            background: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Facebook Groups Monitor</h1>
+    </div>
+    
+    <div class="monitoring-status">
+        <div id="monitoringStatus">
+            <span class="status-indicator status-inactive"></span>
+            Monitoring Status: Inactive
+        </div>
+        <button id="toggleMonitoring" class="btn btn-small">Start Monitoring</button>
+    </div>
+
+    <div id="statusMessage" class="status" style="display: none;"></div>
+
+    <div class="add-group-form">
+        <h3 style="margin-top: 0;">Add New Group</h3>
+        <div class="form-group">
+            <label for="groupName">Group Name:</label>
+            <input type="text" id="groupName" placeholder="Enter group name">
+        </div>
+        <div class="form-group">
+            <label for="groupUrl">Facebook Group URL:</label>
+            <input type="url" id="groupUrl" placeholder="https://www.facebook.com/groups/...">
+        </div>
+        <div class="form-group">
+            <label for="webhookUrl">Webhook URL:</label>
+            <input type="url" id="webhookUrl" placeholder="https://your-webhook-url.com">
+        </div>
+        <div class="form-group">
+            <label for="checkInterval">Check Interval (minutes):</label>
+            <input type="number" id="checkInterval" value="5" min="1" max="60">
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="specificUserMode"> Monitor specific user only
+            </label>
+        </div>
+        <div class="form-group" id="specificUserGroup" style="display: none;">
+            <label for="specificUser">User to Monitor:</label>
+            <input type="text" id="specificUser" placeholder="Enter exact Facebook name (e.g., John Smith)">
+            <small style="color: #666; font-size: 12px;">Enter the exact name as it appears on Facebook posts</small>
+        </div>
+        <button id="addGroup" class="btn">Add Group</button>
+    </div>
+
+    <div id="groupsList">
+        <!-- Groups will be populated here -->
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
